@@ -1,5 +1,6 @@
 let score = 0;
 let currentAnswer = 0;
+let questionCount = 0;  // Track the number of questions answered
 const scoreDisplay = document.getElementById('score');
 const feedbackDisplay = document.getElementById('feedback');
 const questionDisplay = document.getElementById('question');
@@ -24,7 +25,6 @@ function checkAnswer() {
     if (userAnswer === currentAnswer) {
         feedbackDisplay.textContent = "Correct!";
         score += 1;
-        resultDisplay.textContent = `Your score is: ${score}`;
     } else {
         feedbackDisplay.textContent = "Wrong! Try again.";
     }
@@ -32,16 +32,37 @@ function checkAnswer() {
     // Update the score display
     scoreDisplay.textContent = score;
 
-    // Clear the input field
-    answerInput.value = '';
-    answerInput.focus();
+    // Increment the question count
+    questionCount++;
 
-    // Generate a new question after every attempt
-    generateQuestion();
+    // Check if 10 questions have been answered
+    if (questionCount >= 10) {
+        endGame();
+    } else {
+        // Clear the input field and generate a new question
+        answerInput.value = '';
+        answerInput.focus();
+        generateQuestion();
+    }
+}
+
+// Function to end the game after 10 questions
+function endGame() {
+    questionDisplay.textContent = "Game Over!";
+    feedbackDisplay.textContent = `Your final score is: ${score}`;
+    submitButton.disabled = true;  // Disable the submit button
+    answerInput.disabled = true;  // Disable the input field
 }
 
 // Event listener for the submit button
 submitButton.addEventListener('click', checkAnswer);
+
+// Event listener for pressing Enter key to submit answer
+answerInput.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+        checkAnswer();
+    }
+});
 
 // Initial question
 generateQuestion();
