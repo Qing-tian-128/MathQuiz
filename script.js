@@ -11,8 +11,8 @@ const submitButton = document.getElementById('submit-answer');
 
 // Function to generate a random math question
 function generateQuestion() {
-    const num1 = Math.floor(Math.random() * 10) + 1;
-    let num2 = Math.floor(Math.random() * 10) + 1;
+    const num1 = Math.floor(Math.random() * 100) + 1;
+    let num2 = Math.floor(Math.random() * 100) + 1;
     const operations = ['+', '-', '*', '/'];  // Array of operations
     const operator = operations[Math.floor(Math.random() * operations.length)];
 
