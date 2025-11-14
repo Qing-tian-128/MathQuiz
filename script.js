@@ -1,6 +1,7 @@
 let score = 0;
 let currentAnswer = 0;
 let questionCount = 0;  // Track the number of questions answered
+const questionLimit = 20;  // Set the number of questions to 20
 const scoreDisplay = document.getElementById('score');
 const feedbackDisplay = document.getElementById('feedback');
 const questionDisplay = document.getElementById('question');
@@ -11,16 +12,32 @@ const submitButton = document.getElementById('submit-answer');
 // Function to generate a random math question
 function generateQuestion() {
     const num1 = Math.floor(Math.random() * 10) + 1;
-    const num2 = Math.floor(Math.random() * 10) + 1;
-    const operator = Math.random() > 0.5 ? '+' : '-';
-    
+    let num2 = Math.floor(Math.random() * 10) + 1;
+    const operations = ['+', '-', '*', '/'];  // Array of operations
+    const operator = operations[Math.floor(Math.random() * operations.length)];
+
+    // Prevent division by zero
+    if (operator === '/' && num2 === 0) {
+        num2 = 1;  // Make sure the divisor is never zero
+    }
+
+    // Create the question based on the operator
     questionDisplay.textContent = `${num1} ${operator} ${num2}`;
-    currentAnswer = operator === '+' ? num1 + num2 : num1 - num2;
+
+    if (operator === '+') {
+        currentAnswer = num1 + num2;
+    } else if (operator === '-') {
+        currentAnswer = num1 - num2;
+    } else if (operator === '*') {
+        currentAnswer = num1 * num2;
+    } else if (operator === '/') {
+        currentAnswer = num1 / num2;
+    }
 }
 
 // Function to check the answer and update score
 function checkAnswer() {
-    const userAnswer = parseInt(answerInput.value);
+    const userAnswer = parseFloat(answerInput.value);
 
     if (userAnswer === currentAnswer) {
         feedbackDisplay.textContent = "Correct!";
@@ -35,8 +52,8 @@ function checkAnswer() {
     // Increment the question count
     questionCount++;
 
-    // Check if 10 questions have been answered
-    if (questionCount >= 10) {
+    // Check if 20 questions have been answered
+    if (questionCount >= questionLimit) {
         endGame();
     } else {
         // Clear the input field and generate a new question
@@ -46,10 +63,11 @@ function checkAnswer() {
     }
 }
 
-// Function to end the game after 10 questions
+// Function to end the game after 20 questions
 function endGame() {
     questionDisplay.textContent = "Game Over!";
     feedbackDisplay.textContent = `Your final score is: ${score}`;
+    resultDisplay.textContent = "Thanks for playing!";
     submitButton.disabled = true;  // Disable the submit button
     answerInput.disabled = true;  // Disable the input field
 }
