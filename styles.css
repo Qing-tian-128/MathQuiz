@@ -11,19 +11,14 @@ body {
     margin: 0;
 }
 
-/* Style for the game container with bubble effect */
+/* Style for the game container */
 .game-container {
     text-align: center;
-    background-color: rgba(255, 255, 255, 0.5);  /* Semi-transparent white background (bubble effect) */
+    background-color: rgba(255, 255, 255, 0.8);  /* Semi-transparent white background */
     padding: 30px;
-    border-radius: 50%;  /* Makes the container round (bubble-like shape) */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);  /* Adds a soft shadow around the bubble */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 300px;
-    height: 300px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
 }
 
 /* Button styling */
